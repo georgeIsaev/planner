@@ -60,37 +60,46 @@ class NewNote {
   }
 
   dragstart(event) {
-    this.classList.add('dragged')
-    Note.dragged = this;
     event.stopPropagation();
+
+    this.classList.add('dragged');
+    Note.dragged = this;
   }
 
   dragend(event) {
-    this.classList.remove('dragged')
+    event.stopPropagation();
+
+    this.classList.remove('dragged');
     Note.dragged = null;
   
-    document.querySelectorAll('.note').forEach(x => {
-      x.classList.remove('under');
-    })
+    document.querySelectorAll('.note')
+      .forEach(x => x.classList.remove('under'));
   }
   
   dragenter(event) {
-    if (this === Note.dragged) return;
+    event.stopPropagation();
+
+    if (!Note.dragged || this === Note.dragged) return;
     this.classList.add('under');
   }
 
   dragover(event) {
     event.preventDefault();
-    if (this === Note.dragged) return;
+    event.stopPropagation();
+
+    if (!Note.dragged || this === Note.dragged) return;
   }
 
   dragleave(event) {
-    if (this === Note.dragged) return;
+    event.stopPropagation();
+
+    if (!Note.dragged || this === Note.dragged) return;
     this.classList.remove('under');
   }
 
   drop(event) {
     event.stopPropagation();
+
     if (this === Note.dragged) return;
   
     if (this.parentElement === Note.dragged.parentElement) {
