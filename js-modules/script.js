@@ -1,20 +1,15 @@
-
-// Добавление новых записей
-Column.columns.forEach(column => {
-  Note.create(column);
-  Column.drag(column);
-});
+const app = new Applecation();
 
 // Добавление новой колонки
-Column.addBtn.addEventListener('click', function(e) {
-  Column.create();
-});
+document.querySelector('[data-action-addColumn]')
+  .addEventListener('click', function(e) {
+    let column = new Column();
 
-// Изменение записей при двойном клике
-Note.notes.forEach(note => {
-  Note.edit(note);
-  Note.drag(note);
-});
+    document.querySelector('.columns')
+      .append(column.$el);
+    
+    app.save();
+  });
 
-// Изменение заголовков при двойном клике
-Column.headers.forEach(header => Column.editHeader(header));
+app.load();
+app.save();

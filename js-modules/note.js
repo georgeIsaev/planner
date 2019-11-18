@@ -1,33 +1,27 @@
-class NewNote {
-  constructor() {
-    this.notes = document.querySelectorAll('.note');
-    this.idCounter = +this.notes[this.notes.length-1].getAttribute('data-note-id') + 1;
-    this.dragged = null;
-  }
+class Note {
+  static idCounter = 1
+  static dragged = null
 
-  create(column) {
-    const addNoteBtn = column.querySelector('[data-action-addNote]');
-  
-    addNoteBtn.addEventListener('click', function(e) {
-      const newNote = document.createElement('div');
-      newNote.classList.add('note');
-      newNote.setAttribute('draggable', 'true');
-      newNote.setAttribute('data-note-id', Note.idCounter);
-  
+  constructor(id = null, content = '') {
+    const $el = this.$el = document.createElement('div');
+
+    $el.classList.add('note');
+    $el.setAttribute('draggable', 'true');
+
+    if (id) {
+      $el.setAttribute('data-note-id', id);
+      Note.idCounter = (id + 1) > Note.idCounter ? id + 1 : Note.idCounter;
+    } else {
+      $el.setAttribute('data-note-id', Note.idCounter);
       Note.idCounter++;
-  
-      column.querySelector('[data-notes]').append(newNote);
-      newNote.setAttribute('contenteditable', 'true');
-      newNote.focus();
-  
-      Note.edit(newNote);
-      Note.drag(newNote);
-    });
-
-    return this;
+    }
+    $el.textContent = content;
+    
+    Note.edit($el);
+    Note.drag($el, this);
   }
 
-  edit(note) {
+  static edit(note) {
     note.addEventListener('dblclick', function(e) {
       note.setAttribute('contenteditable', 'true');
       note.removeAttribute('draggable');
@@ -41,79 +35,80 @@ class NewNote {
       note.closest('.column').setAttribute('draggable', 'true');
   
       if (!note.textContent.trim().length) {
+        if ( (Note.idCounter - 1) == parseInt(this.getAttribute('data-note-id')) ) {
+          Note.idCounter--;
+        }
         note.remove();
       }
+      app.save();
     })
-
-    return this;
   }
 
-  drag(note) {
-    note.addEventListener('dragstart', Note.dragstart);
-    note.addEventListener('dragend', Note.dragend);
-    note.addEventListener('dragenter', Note.dragenter);
-    note.addEventListener('dragover', Note.dragover);
-    note.addEventListener('dragleave', Note.dragleave);
-    note.addEventListener('drop', Note.drop);
-
-    return this;
+  static drag(note, ths) {
+    note.addEventListener('dragstart', ths.dragstart.bind(ths));
+    note.addEventListener('dragend', ths.dragend.bind(ths));
+    note.addEventListener('dragenter', ths.dragenter.bind(ths));
+    note.addEventListener('dragover', ths.dragover.bind(ths));
+    note.addEventListener('dragleave', ths.dragleave.bind(ths));
+    note.addEventListener('drop', ths.drop.bind(ths));
   }
 
   dragstart(event) {
     event.stopPropagation();
 
-    this.classList.add('dragged');
-    Note.dragged = this;
+    this.$el.classList.add('dragged');
+    Note.dragged = this.$el;
   }
 
   dragend(event) {
     event.stopPropagation();
 
-    this.classList.remove('dragged');
+    this.$el.classList.remove('dragged');
     Note.dragged = null;
   
     document.querySelectorAll('.note')
       .forEach(x => x.classList.remove('under'));
+
+    
+    app.save();
   }
   
   dragenter(event) {
     event.stopPropagation();
 
-    if (!Note.dragged || this === Note.dragged) return;
-    this.classList.add('under');
+    if (!Note.dragged || this.$el === Note.dragged) return;
+    this.$el.classList.add('under');
   }
 
   dragover(event) {
     event.preventDefault();
     event.stopPropagation();
 
-    if (!Note.dragged || this === Note.dragged) return;
+    if (!Note.dragged || this.$el === Note.dragged) return;
   }
 
   dragleave(event) {
     event.stopPropagation();
 
-    if (!Note.dragged || this === Note.dragged) return;
-    this.classList.remove('under');
+    if (!Note.dragged || this.$el === Note.dragged) return;
+    this.$el.classList.remove('under');
   }
 
   drop(event) {
     event.stopPropagation();
 
-    if (this === Note.dragged) return;
+    if (this.$el === Note.dragged) return;
   
-    if (this.parentElement === Note.dragged.parentElement) {
-      const notes = Array.from(this.parentElement.querySelectorAll('.note'));
-      const indexA = notes.indexOf(this);
+    if (this.$el.parentElement === Note.dragged.parentElement) {
+      const notes = Array.from(this.$el.parentElement.querySelectorAll('.note'));
+      const indexA = notes.indexOf(this.$el);
       const indexB = notes.indexOf(Note.dragged);
   
-      if (indexA < indexB) this.parentElement.insertBefore(Note.dragged, this);
-      if (indexA > indexB) this.parentElement.insertBefore(Note.dragged, this.nextElementSibling);
+      if (indexA < indexB) this.$el.parentElement.insertBefore(Note.dragged, this.$el);
+      if (indexA > indexB) this.$el.parentElement.insertBefore(Note.dragged, this.$el.nextElementSibling);
   
     } else {
-      this.parentElement.insertBefore(Note.dragged, this);
+      this.$el.parentElement.insertBefore(Note.dragged, this.$el);
     }
   }
 }
-
-const Note = new NewNote();
