@@ -1,15 +1,15 @@
 * {
-    box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    /* background-image: url('https://source.unsplash.com/random'); */
-    /* background-image: url('https://source.unsplash.com/featured?island'); */
-    background-image: url('https://source.unsplash.com/1600x900/?background');
-    background-size: cover;
-    background-position: center;
-    font-family: 'Noto Sans', sans-serif;
+	margin: 0;
+	/* background-image: url('https://source.unsplash.com/random'); */
+	/* background-image: url('https://source.unsplash.com/featured?island'); */
+	background-image: url('https://source.unsplash.com/1600x900/?background');
+	background-size: cover;
+	background-position: center;
+	font-family: 'Noto Sans', sans-serif;
 }
 
 .container {
@@ -21,26 +21,26 @@ body {
 .row,
 .columns  {
 	display: flex;
-    align-items: flex-start;
-    flex-wrap: wrap;
+	align-items: flex-start;
+	flex-wrap: wrap;
 }
 
 .column, .adder {
 	margin: 10px;
-    width: 240px;
-    border-radius: 4px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	width: 240px;
+	border-radius: 4px;
+	box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .column {
-    background: #f1f1f1;
-    padding: 10px 15px;
+	background: #f1f1f1;
+	padding: 10px 15px;
 }
 
 .adder {
-    background: rgba(241, 241, 241, 0.5);
-    padding: 0;
-    transition: all 0.2s ease;
+	background: rgba(241, 241, 241, 0.5);
+	padding: 0;
+	transition: all 0.2s ease;
 }
 
 .adder:hover {
@@ -48,59 +48,59 @@ body {
 }
 
 .adder span {
-    display: block;
-    font-size: 14px;
-    line-height: 1;
-    font-weight: 700;
-    color: rgb(82, 82, 82);
-    margin: 0;
-    padding: 15px 20px;
+	display: block;
+	font-size: 14px;
+	line-height: 1;
+	font-weight: 700;
+	color: rgb(82, 82, 82);
+	margin: 0;
+	padding: 15px 20px;
 }
 
 .column-header {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
 }
 
 .title {
-    flex-grow: 1;
-    text-align: left;
-    font-size: 14px;
-    font-weight: 700;
-    color: rgb(82, 106, 122);
-    margin: 0;
-    margin-bottom: 10px;
+	flex-grow: 1;
+	text-align: left;
+	font-size: 14px;
+	font-weight: 700;
+	color: rgb(82, 106, 122);
+	margin: 0;
+	margin-bottom: 10px;
 }
 
 .delete {
-    position: relative;
-    display: block;
-    width: 20px;
-    height: 20px;
+	position: relative;
+	display: block;
+	width: 20px;
+	height: 20px;
 }
 
 .delete::after,
 .delete::before {
-    content: '';
-    position: absolute;
-    top: 6.5px;
-    right: 0px;
-    display: block;
-    width: 18px;
-    height: 3px;
-    background-color: brown;
-    transform: rotate(45deg);
-    cursor: pointer;
+	content: '';
+	position: absolute;
+	top: 6.5px;
+	right: 0px;
+	display: block;
+	width: 18px;
+	height: 3px;
+	background-color: brown;
+	transform: rotate(45deg);
+	cursor: pointer;
 }
 
 .delete::before {transform: rotate(-45deg);}
 
 .column-footer span {
-    font-size: 14px;
-    font-weight: 400;
-    color: rgb(82, 82, 82);
-    margin: 0;
+	font-size: 14px;
+	font-weight: 400;
+	color: rgb(82, 82, 82);
+	margin: 0;
 }
 
 .note {
@@ -110,21 +110,21 @@ body {
 	padding: 10px;
 	border: none;
 	border-radius: 4px;
-    margin-bottom: 8px;
-    box-shadow: 0px 1px 0px 0px #c9cfd4;
+	margin-bottom: 8px;
+	box-shadow: 0px 1px 0px 0px #c9cfd4;
 
-    text-align: left;
-    font-size: 14px;
-    line-height: 1.3;
-    font-weight: 400;
-    color: rgb(82, 106, 122);
+	text-align: left;
+	font-size: 14px;
+	line-height: 1.3;
+	font-weight: 400;
+	color: rgb(82, 106, 122);
 
-    transition: background-color 0.2s linear;
+	transition: background-color 0.2s linear;
 }
 
 .note:hover {
 	background-color: #e3f2fd;
-    cursor: pointer;
+	cursor: pointer;
 }
 
 .note:focus {
@@ -144,8 +144,8 @@ body {
 }
 
 .action {
-    cursor: pointer;
-    user-select: none;
+	cursor: pointer;
+	user-select: none;
 }
 
 .column.under {
@@ -154,4 +154,20 @@ body {
 
 .note.under {
 	opacity: 0.5;
+}
+
+@media only screen and (max-width: 580px) {
+	.row,
+	.columns  {
+		display: flex;
+		flex-direction: column;
+		align-content: center;
+	}
+
+	.column, .adder {
+		margin: 10px;
+		width: 300px;
+		border-radius: 4px;
+		box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+	}
 }
