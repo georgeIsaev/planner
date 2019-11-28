@@ -69,6 +69,7 @@ class Column {
           alert('Сначала удалите все записи из колонки!')
         }
       });
+    app.save();
   }
 
   static drag(column, ths) {
