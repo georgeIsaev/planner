@@ -65,11 +65,11 @@ class Column {
 
         if (notesCount === 0) {
           column.remove();
+          app.save();
         } else {
           alert('Сначала удалите все записи из колонки!')
         }
       });
-    app.save();
   }
 
   static drag(column, ths) {
